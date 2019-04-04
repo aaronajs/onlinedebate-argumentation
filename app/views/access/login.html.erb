@@ -1,0 +1,17 @@
+<div class="jumbotron text-center" style="height:100vh">
+  <div class="col-md-auto">
+    <h1>Log In</h1><hr><br />
+    <%= form_tag(:action => 'attempt_login') do %>
+        <p class="marginZero"><%= text_field_tag :username, nil, placeholder: 'Username' %></p>
+        <p><%= password_field_tag :password, nil, placeholder: 'Password' %></p>
+        <% if flash[:notice] %>
+          <div class="notice"><%= flash[:notice] %></div>
+        <% end %>
+        <br /><br />
+        <div><%= submit_tag ("Log In"), class:"btn btn-info" %>
+        <%= link_to( {:action => 'signup'}, :class => 'action signup') do%>
+      <button type="button" class="btn btn-light">Sign Up</button>
+    <% end %></div>
+    <% end %>
+  </div>
+</div>

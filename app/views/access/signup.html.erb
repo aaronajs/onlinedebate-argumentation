@@ -1,0 +1,18 @@
+<div class="jumbotron text-center" style="height:100vh">
+  <h1>Sign Up</h1><hr><br />
+  <%= form_tag(:action => 'attempt_signup') do %>
+    <p class="marginZero"><%= text_field_tag :email, nil, placeholder: 'Email Address' %></p>
+    <p class="marginZero"><%= text_field_tag :username, nil, placeholder: 'Username' %></p>
+    <p class="marginZero"><%= password_field_tag :password, nil, placeholder: 'Password' %></p>
+    <p><%= password_field_tag :password_confirm, nil, placeholder: 'Confirm Password' %></p>
+    <div class="container" style="max-width:500px">
+      <p class="text-muted"> Your password must contain a lowercase letter, an uppercase letter, a number, and should be at least 5 characters long</p>
+      <p class="text-muted"> A unique strong password is recommended.</p>
+    </div>
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
+    <br />
+    <div><%= submit_tag ("Sign Up"), class:"btn btn-info" %>
+  <% end %>
+</div>

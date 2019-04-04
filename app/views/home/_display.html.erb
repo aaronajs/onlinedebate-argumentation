@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header" id="<%= "cardhead_#{arg.id}" %>">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <% if arg.attacks.size > 0 %>
+          <a class="collapsed text-info" role="button" data-toggle="collapse" href="#<%= "card_#{arg.id}" %>" aria-expanded="false" aria-controls="<%= "card_#{arg.id}" %>">
+            <td><%= arg.description %></td>
+          </a>
+        <% else %>
+          <a class="collapsed text-dark">
+            <td><%= arg.description %></td>
+          </a>
+        <% end %>
+        <br />
+        <% if arg.attacks.size == 1 %>
+          <td><%= arg.attacks.size %> counter argument</td>
+        <% else %>
+          <td><%= arg.attacks.size %> counter arguments</td>
+        <% end %>
+        <br />
+        <%= link_to 'Add Counter Argument', '#', 'data-target' => "#myModal_#{arg.id}", 'data-toggle' => 'modal'  %>
+        <div class="modal fade" id='<%= "myModal_#{arg.id}" %>' tabindex="-1" aria-labelledby="title" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="title">Add Counter Argument</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body">
+                <%= render 'form', arg: arg.id, debate: @debate.id, type: @type%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 mobileright">
+        <td><%= arg.created_at.localtime.to_formatted_s(:long_ordinal) %></td>
+        <br />
+         mark as:
+        <td>
+          <%= link_to( {:action => 'upvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+            relevant
+          <% end %>
+           |
+          <%= link_to( {:action => 'downvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+            irrelevant
+          <% end %>
+        </td>
+        <br />
+        <td>
+          <%= link_to( {:action => 'report_arg', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}, :class => 'action text-danger') do %>
+              report argument
+          <% end %>
+        </td>
+      </div>
+    </div>
+  </div>
+
+  <div id="<%= "card_#{arg.id}" %>" class="collapse" aria-labelledby="<%= "cardhead_#{arg.id}" %>">
+    <% arg.attacks.sort.reverse.each do |att| %>
+      <div class="minimal-padding card-body">
+        <% attack = Argument.find(att) %>
+        <%= render 'display', arg: attack, debate: @debate.id, type: @type %>
+      </div>
+    <% end %>
+    <br />
+  </div>
+</div>

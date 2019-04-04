@@ -1,0 +1,14 @@
+require 'test_helper'
+
+class AccessControllerTest < ActionDispatch::IntegrationTest
+  test "should get login" do
+    get access_login_url
+    assert_response :success
+  end
+
+  test "should get signup" do
+    get access_signup_url
+    assert_response :success
+  end
+
+end

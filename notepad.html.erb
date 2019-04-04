@@ -1,0 +1,213 @@
+def evaluation(type, debate)
+  puts "evaluation"
+  arguments = Argument.where(debate_id: debate, isOpen: type)
+  removedLowRating = arguments.reject {|x| x.weighted_score <= -10}
+  filteredArguments = removedLowRating.reject {|x| x.reported >= 10}
+
+  if type == "open"
+    open_evaluation(debate, filteredArguments)
+  else
+    binary_evaluation(debate, filteredArguments)
+  end
+end
+
+def open_evaluation(debate, arguments)
+  full = ''
+  arguments.each do |arg|
+    full = full + "\'" + arg.to_json + "\'"
+  end
+
+  puts "running open"
+  result = `python lib/assets/evaluate_open.py 'open'#{full}`
+  debate = OpenDebate.find(debate)
+  debate.leader = result.to_i
+  debate.save
+end
+
+def binary_evaluation(debate, arguments)
+  full = ''
+  arguments.each do |arg|
+    full = full + "\'" + arg.to_json + "\' "
+  end
+
+  debate = BinaryDebate.find(debate)
+  forargs = debate.for_arguments.to_json
+  againstargs = debate.against_arguments.to_json
+  puts "running binary"
+  puts forargs
+  puts againstargs
+
+  result = `python lib/assets/evaluate_open.py #{full}`
+end
+
+<div class="card">
+  <div class="card-header" id="<%= "cardhead_#{arg.id}" %>">
+    <% if arg.attacks.size > 0 %>
+      <a class="collapsed" role="button" data-toggle="collapse" href="#<%= "card_#{arg.id}" %>" aria-expanded="false" aria-controls="<%= "card_#{arg.id}" %>">
+        <td><%= arg.description %> </td>
+        <% if arg.attacks.size > 1 %>
+          <td>(<%= arg.attacks.size %> counter arguments):</td>
+        <% else %>
+          <td>(<%= arg.attacks.size %> counter argument):</td>
+        <% end %>
+      </a>
+    <% else %>
+      <a class="collapsed">
+        <td><%= arg.description %>:</td>
+      </a>
+    <% end %>
+    <td><%= arg.created_at.localtime.to_formatted_s(:long_ordinal) %></td>
+    <br />
+    <td>
+      <%= link_to 'Add Counter Argument', '#', 'data-target' => "#myModal_#{arg.id}", 'data-toggle' => 'modal'  %>
+      <div class="modal fade" id='<%= "myModal_#{arg.id}" %>' tabindex="-1" aria-labelledby="title" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="title">Add Counter Argument</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <%= render 'form', arg: arg.id, debate: @debate.id, type: @type%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+     |
+    <td>
+      <%= link_to( {:action => 'upvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+          mark as relevant
+      <% end %>
+       |
+      <%= link_to( {:action => 'downvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+          mark as irrelevant
+      <% end %>
+    </td>
+    <td>
+      |
+      <%= link_to( {:action => 'report_arg', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+          report argument
+      <% end %>
+    </td>
+  </div>
+
+  <div id="<%= "card_#{arg.id}" %>" class="collapse" aria-labelledby="<%= "cardhead_#{arg.id}" %>">
+    <% arg.attacks.sort.reverse.each do |att| %>
+      <div class="minimal-padding card-body">
+        <% attack = Argument.find(att) %>
+        <%= render 'display', arg: attack, debate: @debate.id, type: @type %>
+      </div>
+    <% end %>
+    <br />
+  </div>
+</div>
+
+
+<% arg.attacks.each do |att| %>
+  <% attack = Argument.find(att) %>
+  <%= render 'display', arg: attack, debate: @debate.id, type: @type %>
+<% end %>
+
+<td><%= arg.description %></td>
+<td>
+  <% arg.attacks.each do |att| %>
+    <% attack = Argument.find(att) %>
+      <table class="table" style="margin-left:50px;">
+        <tr>
+            <%= render 'display', arg: attack, debate: @debate.id, type: @type %>
+        </tr>
+      </table>
+  <% end %>
+</td>
+
+<table class="table table-striped">
+  <thread class="thread-dark">
+    <tr>
+      <th>Args</th>
+      <th>User</th>
+      <th>Date Created</th>
+      <th>Rating</th>
+      <th>report_arg</th>
+      <th>Respond</th>
+      <th>Attacks</th>
+    </tr>
+  </thread>
+  <% @arguments.each do |arg| %>
+    <% if arg.attacks.size >= 0 %>
+      <tr>
+        <td><%= arg.description %></td>
+        <td><%= User.find(arg.user_id).username %></td>
+        <td><%= arg.created_at %></td>
+        <td>
+          <%= link_to( {:action => 'upvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+              +
+          <% end %>
+          <%=arg.weighted_total%>
+          <%=arg.get_likes.size%>
+          <%=arg.get_dislikes.size%>
+          <%= link_to( {:action => 'downvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+              -
+          <% end %>
+        </td>
+        <td>
+          <%= arg.reported %>
+          <%= link_to( {:action => 'report_arg', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
+              report_arg
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'Respond', '#', 'data-target' => "#myModal_#{arg.id}", 'data-toggle' => 'modal'  %>
+          <div class="modal fade" id='<%= "myModal_#{arg.id}" %>' tabindex="-1" aria-labelledby="title" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="title">Arg</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <%= render 'form', arg: arg.id, debate: @debate.id, type: @type%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <% arg.attacks.each do |subarg| %>
+            <% if subarg != nil %>
+              <p><%= Argument.find(subarg).description %></p>
+            <% end %>
+          <% end %>
+          <%= arg.attacks.size %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </table>
+
+  <table class="table">
+    <tr>
+      <th>Args</th>
+    </tr>
+    <% @arguments.each do |arg| %>
+      <% if arg.isLeading %>
+        <tr>
+          <%= render 'display', arg: arg, debate: @debate.id, type: @type%>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+  <a class="btn btn-primary" type="button" data-toggle="collapse" data-target="#arg.id" aria-expanded="false" aria-controls="collapseExample">
+    <%= arg.description %>
+  </a>
+  <div class="collapse" id="arg.id">
+    <div class="card card-body">
+      <% arg.attacks.each do |att| %>
+        <% attack = Argument.find(att) %>
+        <tr>
+          <%= render 'display', arg: attack, debate: @debate.id, type: @type %>
+        </tr>
+      <% end %>
+    </div>
+  </div>

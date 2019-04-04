@@ -1,0 +1,5 @@
+I"A(function() {
+  $(".notice").fadeOut(1000);
+
+}).call(this);
+:ET

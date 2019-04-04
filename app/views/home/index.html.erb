@@ -1,0 +1,49 @@
+<div class="jumbotron">
+  <div class="container">
+    <%= link_to( {:action => 'new'}, :class => 'action new') do %>
+        <button type="button" class="btn btn-info">New Debate</button>
+    <% end %>
+
+    <br /><br /><hr><br />
+
+    <h4 class="text-info">Open Debates</h4>
+    <table style="width: 100%">
+      <tr>
+          <th>Description</th>
+          <th>Creator</th>
+          <th>Latest Update At</th>
+      </tr>
+
+      <% @open.each do |debate| %>
+      <tr>
+          <td><%= link_to( {:action => 'show', :id => debate.id, :type => "open"}) do %>
+              <%= debate.description %>
+          <% end %></td>
+          <td><%= User.find(debate.user_id).username %></td>
+          <td><%= debate.updated_at.localtime.to_formatted_s(:long_ordinal)  %></td>
+      </tr>
+      <% end %>
+    </table>
+
+    <br /><br /><br /><br />
+
+    <h4 class="text-info">Binary Debates</h4>
+    <table style="width: 100%">
+      <tr>
+          <th>Description</th>
+          <th>Creator</th>
+          <th>Latest Update At</th>
+      </tr>
+
+      <% @binary.each do |debate| %>
+      <tr>
+          <td><%= link_to( {:action => 'show', :id => debate.id, :type => "binary"}) do %>
+              <%= debate.description %>
+          <% end %></td>
+          <td><%= User.find(debate.user_id).username %></td>
+          <td><%= debate.updated_at.localtime.to_formatted_s(:long_ordinal)  %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

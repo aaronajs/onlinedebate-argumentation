@@ -1,0 +1,6 @@
+$(".usersTable").replaceWith("<%=j render :partial=> 'users/update_user', :locals => {users: @users }%>");
+$("input[type=text]").val("");
+
+$('#myModal').modal('hide');
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();

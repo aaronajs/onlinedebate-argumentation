@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debate</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navdrop" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navdrop" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+          <% if (session[:user_id]) %>
+            <li class="nav-item">
+              <%= link_to( {:controller => 'access', :action => 'index'}, :class => 'nav-link active') do %>
+                <%= session[:username] %>
+              <% end %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to( {:controller => 'access', :action => 'login'}, :class => 'nav-link active') do %>
+                <%= "Prototype" %>
+              <% end %>
+            </li>
+          <% end %>
+          <li class="nav-item nav-link active">
+            <%= "|" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to( {:controller => 'home', :action => 'index'}, :class => 'nav-link') do %>
+            <%= "All Debates" %>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to( {:controller => 'home', :action => 'new'}, :class => 'nav-link') do %>
+            <%= "New Debate" %>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to( {:controller => 'home', :action => 'rules'}, :class => 'nav-link') do %>
+            <%= "Rules of Conduct" %>
+            <% end %>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <% if (session[:user_id]) %>
+            <li class="nav-item">
+              <%= link_to( {:controller => 'access', :action => 'logout'}, :class => 'nav-item nav-link') do %>
+              <%= "Logout" %>
+              <% end %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to( {:controller => 'access', :action => 'login'}, :class => 'nav-item nav-link') do %>
+              <%= "Login" %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to( {:controller => 'access', :action => 'signup'}, :class => 'nav-item nav-link') do %>
+              <%= "Signup" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+    </div>
+  </nav>
+
+<%= yield %>
+      <div class="container" id="footer">
+        <p class="text-muted small">
+          Disclaimer: The information contained in arguments is submitted by our users. There is no guarantee that the information is factually correct. This means that the argumentation based evaluation of debates may produce a questionable winning argument. For more about argumentation evaluation, see the user guide.
+        </p>
+				<hr>
+				<p class="text-muted small">
+					&copy;2019 Aaron Suman</p>
+				<br />
+			</div>
+  </body>
+</html>

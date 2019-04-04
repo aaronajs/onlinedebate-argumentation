@@ -1,0 +1,94 @@
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <div id="debate info">
+          <h2><%= @debate.description %></h2>
+          <h3 class="text-info"><%= @user.username %></h3>
+          <p class="text-muted"><%= @debate.updated_at.localtime.to_formatted_s(:long_ordinal) %></p>
+          <%= link_to( {:action => 'report_deb', :deb_id => @debate.id, :type => @type}, :class => 'action report_deb') do%>
+            <button type="button" class="btn btn-danger">Report Debate</button>
+          <% end %>
+        </div>
+        <br />
+      </div>
+      <div class="col-12 col-sm-6 mobileright">
+        <% if @type == "open" %>
+          <h2>Winning argument</h2>
+          <% if @debate.leader == 0 %>
+            <h3 class="text-info">Not determined yet</h3>
+          <% else %>
+            <h3 class="text-success"><%= @arguments.find(@debate.leader).description %></h3>
+          <% end %>
+        <% else %>
+          <h2>Winning side</h2>
+          <h3 class="text-success">
+            <% if @debate.isFor %>
+              <%= @debate.for %>
+            <% else %>
+              <%= @debate.against %>
+            <% end %>
+          </h3>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <br /><hr><br /><br />
+  <% if flash[:notice] %>
+    <h4 class="notice text-center text-info"><%= flash[:notice] %></h4>
+  <% end %>
+  <br /><br />
+
+  <div class="container">
+    <h3>Add Argument</h3>
+    <%= form_for(:argument, :url => {:action => 'add_new_argument', :debate_id => @debate.id, :type => @type}) do |f| %>
+    <p class="form-control-file"><%= f.text_area:description, placeholder: 'Argument Description', :cols => 40, :rows => 3%></p>
+    <% if @type != "open" %>
+      <%= f.radio_button :choice, 'for', checked: true, data: {behavior: "clickable"} %>
+      <%= f.label :choice_for, 'For' %>
+      <%= f.radio_button :choice, 'against', checked: false, data: {behavior: "clickable"} %>
+      <%= f.label :choice_against, 'Against' %>
+    <% end %>
+    <%= submit_tag ("Add Argument"), class:"btn btn-info" %>
+    <% end %>
+  </div><br />
+
+  <div class="container" id="arguments">
+    <% if @type == "open" %>
+      <div>
+        <h2>Leading Arguments</h2>
+        <% @arguments.each do |arg| %>
+          <% if arg.isLeading %>
+            <%= render 'display', arg: arg, debate: @debate, type: @type%>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div>
+        <h2>Leading Arguments</h2>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <h3><%= @debate.for %></h3>
+            <% @debate.for_arguments.each do |x| %>
+              <% arg = Argument.find(x) %>
+              <% if arg.isLeading %>
+                <%= render 'display', arg: arg, debate: @debate, type: @type%>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-12 col-md-6">
+            <h3><%= @debate.against %></h3>
+            <% @debate.against_arguments.each do |x| %>
+              <% arg = Argument.find(x) %>
+              <% if arg.isLeading %>
+                <%= render 'display', arg: arg, debate: @debate, type: @type%>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

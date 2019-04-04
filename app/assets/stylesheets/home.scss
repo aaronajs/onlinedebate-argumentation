@@ -1,0 +1,25 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.showinfo{
+  display: blocked;
+}
+.hideinfo{
+  display: none;
+}
+.minimal-padding {
+   padding-left: 0.7em !important;
+   padding-right: 0em !important;
+   padding-top: 0.5em !important;
+   padding-bottom: 0.3em !important;
+}
+.gridcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+.mobileright {
+  text-align: left !important;
+  @media(min-width: 768px) {
+    text-align: right !important;
+  }
+}

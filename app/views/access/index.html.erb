@@ -1,0 +1,41 @@
+<div class="jumbotron">
+  <h4 class="text-info">Username: <%= @user.username %></h4>
+  <h4 class="text-muted">Email Address: <%= @user.email %></h4>
+  <p class="text-muted">Reported: <%= @user.reported %> times</p>
+  <% if @banned %>
+    <p class="text-muted">Ban Date: <%= @user.ban_date %></p>
+  <% end %>
+  <% if flash[:notice] %>
+    <h2 class="notice"><%= flash[:notice] %></h2>
+  <% end %>
+
+  <% if !@banned %>
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <table style="width: 100%">
+          <tr><th>My Open Debates <span class="badge badge-info"><%= @myopendebates.size %></span></th></tr>
+          <% @myopendebates.each do |debate| %>
+          <tr>
+            <td><%= link_to( {:controller => 'home', :action => 'show', :id => debate.id, :type => "open"}) do %>
+                <%= debate.description %>
+            <% end %></td>
+          </tr>
+          <% end %>
+        </table>
+        <br />
+      </div>
+      <div class="col-12 col-sm-6">
+        <table style="width: 100%">
+          <tr><th>My Binary Debates <span class="badge badge-info"><%= @mybinarydebates.size %></span></th></tr>
+          <% @mybinarydebates.each do |debate| %>
+          <tr>
+              <td><%= link_to( {:controller => 'home', :action => 'show', :id => debate.id, :type => "binary"}) do %>
+                  <%= debate.description %>
+              <% end %></td>
+          </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
