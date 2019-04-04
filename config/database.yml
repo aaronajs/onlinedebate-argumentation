@@ -79,7 +79,11 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: debate_production
-  username: debate
-  password: <%= ENV['DEBATE_DATABASE_PASSWORD'] %>
+  # <<: *default
+  # database: debate_production
+  # username: debate
+  # password: <%= ENV['DEBATE_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding:  Unicode
+  pool: 5
+  database: production
