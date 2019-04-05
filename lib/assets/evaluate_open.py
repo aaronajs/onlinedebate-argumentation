@@ -19,12 +19,10 @@ for arg in arguments:
         for attack in arguments[arg]:
             eval.addAttack(arg, eval.findForAttack(attack))
 
-# eval.printFramework()
 eval.calculateSCCs()
 eval.buildCondensationGraph()
 eval.findAllSCCLevels()
 rankedArguments = eval.calculateAcceptances()
-
 print next((arg.id for arg in rankedArguments if arg.isLeading == True), None)
 
 # print len(sys.argv)

@@ -28,15 +28,6 @@ class Analyser:
     def findForAttack(self, value):
         return next((arg for arg in self.args if arg.id == value), None)
 
-    '''
-        A recursive function that find finds and prints strongly connected components using DFS traversal
-        nextArg         --> vertex to be visited next
-        discovery[]          --> stores discovery times of visited size
-        low[]           --> earliest visited vertex (the vertex with minimum discovery time) that can be reached from subtree rooted with current vertex
-        stack           --> stores all the connected ancestors (could be part of SCC)
-        member[]   --> bit/index array for faster check whether a node is in stack
-    '''
-
     def printFramework(self):
         print "framework size: ", len(self.framework)
         for arg in self.framework:
@@ -159,6 +150,21 @@ class Analyser:
                             self.condensationGraph[self.allSccs.index(alt)].append(self.allSccs.index(scc))
         # print self.condensationGraph
 
+    def backtrack(self, arg):
+        # print "arg: ", arg
+        if len(arg.attacked) == 0:
+            # print "returning true"
+            return (arg, True)
+        else:
+            x = []
+            for attacker in arg.attacked:
+                # print "arg in arg.attacked", arg
+                x.append(self.backtrack(attacker))
+            for elem in x:
+                if elem[1] == True:
+                    return (arg, False)
+            return (arg, True)
+
     def calculatePreferredExtensions(self):
         currentLevel = 0
         try:
@@ -167,49 +173,64 @@ class Analyser:
             higherLevel = 0
 
         preferredExtensions = []
-        currentSccs = [scc for scc in self.sccLevels.keys() if self.sccLevels[scc] is currentLevel]
         arguments = []
 
-        for i in range(len(currentSccs)):
-            for arg in self.allSccs[currentSccs[i]]:
-                for j in range(i + 1, len(currentSccs)):
-                    for othArg in self.allSccs[currentSccs[j]]:
-                        if arg.isConflictFree(othArg) and not arg.attacksSelf() and not othArg.attacksSelf():
-                            print arg, othArg
-                            preferredExtensions.append([arg, othArg])
+        if higherLevel == 0:
+            possibles = []
+            for arg in self.args:
+                if arg.isLeading:
+                    possibles.append(self.backtrack(arg))
 
-        if len(preferredExtensions) is 0:
-            for scc in currentSccs:
-                for arg in self.allSccs[scc]:
-                    if not arg.attacksSelf(): preferredExtensions.append([arg])
+            ext = []
+            for set in possibles:
+                if set[1] == True:
+                    ext.append(set[0])
+            preferredExtensions.append(ext)
 
-        for ext in preferredExtensions:
-            for arg in ext:
-                if not arg.isDefendedBy(ext):
-                    preferredExtensions.remove(ext)
-                    break
+        else:
+            currentSccs = [scc for scc in self.sccLevels.keys() if self.sccLevels[scc] is currentLevel]
 
-        while currentLevel < higherLevel:
-            currentLevel += 1
-            currentSccs = [scc for scc in self.sccLevels.keys() if currentLevel is self.sccLevels[scc]]
+            for i in range(len(currentSccs)):
+                for arg in self.allSccs[currentSccs[i]]:
+                    for j in range(i + 1, len(currentSccs)):
+                        for othArg in self.allSccs[currentSccs[j]]:
+                            if arg.isConflictFree(othArg) and not arg.attacksSelf() and not othArg.attacksSelf():
+                                preferredExtensions.append([arg, othArg])
 
-            arguments = []
-            for scc in currentSccs:
-                for arg in self.allSccs[scc]: arguments.append(arg)
+            if len(preferredExtensions) is 0:
+                for scc in currentSccs:
+                    for arg in self.allSccs[scc]:
+                        if not arg.attacksSelf(): preferredExtensions.append([arg])
 
-            extensions = []
-            for arg in arguments:
-                if not arg.attacksSelf(): extensions.append(arg)
-
-            potentialExtensions = []
+            newE = []
             for ext in preferredExtensions:
-                for arg in extensions:
+                for arg in ext:
                     if arg.isDefendedBy(ext):
-                        ext.append(arg)
-                        potentialExtensions.append(ext)
+                        newE.append(ext)
+                        break
+            preferredExtensions = newE
 
-            flatten = set(map(tuple,potentialExtensions))
-            potentialExtensions = map(list,flatten)
+            while currentLevel < higherLevel:
+                currentLevel += 1
+                currentSccs = [scc for scc in self.sccLevels.keys() if currentLevel is self.sccLevels[scc]]
+
+                arguments = []
+                for scc in currentSccs:
+                    for arg in self.allSccs[scc]: arguments.append(arg)
+
+                extensions = []
+                for arg in arguments:
+                    if not arg.attacksSelf(): extensions.append(arg)
+
+                potentialExtensions = []
+                for ext in preferredExtensions:
+                    for arg in extensions:
+                        if arg.isDefendedBy(ext):
+                            ext.append(arg)
+                            potentialExtensions.append(ext)
+
+                flatten = set(map(tuple,potentialExtensions))
+                potentialExtensions = map(list,flatten)
 
         return preferredExtensions
 
@@ -224,8 +245,6 @@ class Analyser:
                 else:
                     argumentCount[arg] = 1
         sortedArgs = sorted(argumentCount, key=argumentCount.get, reverse=True)
-        # for arg in sortedArgs: print arg, sortedArgs[sortedArgs.indexOf(arg)]
-        # print sortedArgs
         return sortedArgs
 
     def calculateDecision(self):
