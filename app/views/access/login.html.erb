@@ -1,5 +1,9 @@
+<!-- login page -->
 <div class="jumbotron text-center" style="height:100vh">
   <div class="col-md-auto">
+    <!-- contains username and password form to fill in -->
+    <!-- attempts to log in when log in button pressed -->
+    <!-- also link to the sign up page -->
     <h1>Log In</h1><hr><br />
     <%= form_tag(:action => 'attempt_login') do %>
         <p class="marginZero"><%= text_field_tag :username, nil, placeholder: 'Username' %></p>

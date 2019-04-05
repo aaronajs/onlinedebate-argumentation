@@ -1,8 +1,11 @@
+<!-- displays debate page -->
 <div class="jumbotron">
   <div class="container">
     <div class="row">
       <div class="col-12 col-sm-6">
         <div id="debate info">
+          <!-- shows debate info and current winner of debate -->
+          <!-- also has button to report debate -->
           <h2><%= @debate.description %></h2>
           <h3 class="text-info"><%= @user.username %></h3>
           <p class="text-muted"><%= @debate.updated_at.localtime.to_formatted_s(:long_ordinal) %></p>
@@ -40,6 +43,7 @@
   <% end %>
   <br /><br />
 
+  <!-- form to add argumnt to the debate, shows for and against radio buttons if a binary debate -->
   <div class="container">
     <h3>Add Argument</h3>
     <%= form_for(:argument, :url => {:action => 'add_new_argument', :debate_id => @debate.id, :type => @type}) do |f| %>
@@ -54,6 +58,9 @@
     <% end %>
   </div><br />
 
+  <!-- shows list of leading arguments using display page -->
+  <!-- two separate lists for binary debates, for-vs-against -->
+  <!-- uses recursive calls of display page to show all arguments -->
   <div class="container" id="arguments">
     <% if @type == "open" %>
       <div>
@@ -90,5 +97,4 @@
       </div>
     <% end %>
   </div>
-
 </div>

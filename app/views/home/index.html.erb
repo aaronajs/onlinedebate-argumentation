@@ -1,11 +1,14 @@
+<!-- home page - displays all debates -->
 <div class="jumbotron">
   <div class="container">
+    <!-- button that redirects to new page -->
     <%= link_to( {:action => 'new'}, :class => 'action new') do %>
         <button type="button" class="btn btn-info">New Debate</button>
     <% end %>
 
     <br /><br /><hr><br />
 
+    <!-- displays all open debates - links to debate page for specific debates -->
     <h4 class="text-info">Open Debates</h4>
     <table style="width: 100%">
       <tr>
@@ -27,6 +30,7 @@
 
     <br /><br /><br /><br />
 
+    <!-- displays all binary debates - links to debate page for specific debates -->
     <h4 class="text-info">Binary Debates</h4>
     <table style="width: 100%">
       <tr>

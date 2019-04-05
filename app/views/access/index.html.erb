@@ -1,7 +1,11 @@
+<!-- user profile page -->
 <div class="jumbotron">
+  <!-- displays user information -->
   <h4 class="text-info">Username: <%= @user.username %></h4>
   <h4 class="text-muted">Email Address: <%= @user.email %></h4>
   <p class="text-muted">Reported: <%= @user.reported %> times</p>
+
+  <!-- if banned, show ban date and notify that they are currently banned -->
   <% if @banned %>
     <p class="text-muted">Ban Date: <%= @user.ban_date %></p>
   <% end %>
@@ -9,6 +13,8 @@
     <h2 class="notice"><%= flash[:notice] %></h2>
   <% end %>
 
+  <!-- if not banned, show all the open and binary debates the user has created -->
+  <!-- each debate links to the specific debate page -->
   <% if !@banned %>
     <div class="row">
       <div class="col-12 col-sm-6">

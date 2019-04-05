@@ -1,22 +1,30 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// css code to show or display particular info
 .showinfo{
   display: blocked;
 }
 .hideinfo{
   display: none;
 }
+
+// adjusts padding - overrides bootstrap original settings
 .minimal-padding {
    padding-left: 0.7em !important;
    padding-right: 0em !important;
    padding-top: 0.5em !important;
    padding-bottom: 0.3em !important;
 }
+
+// aligns object in horizontal center of page
 .gridcenter {
   margin-left: auto;
   margin-right: auto;
 }
+
+// aligns text to right on desktop, left on mobile
 .mobileright {
   text-align: left !important;
   @media(min-width: 768px) {

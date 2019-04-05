@@ -1,6 +1,10 @@
+<!-- new debate page -->
 <div class="jumbotron text-center d-flex justify-content-center">
   <div class="container">
     <h2 class="text-info">New Debate</h2><br />
+    <!-- form to add debate -->
+    <!-- contains radio buttons to choose binary or open debate options -->
+    <!-- if binary selected, smaller text fields to enter for and against options appear -->
     <%= form_for(:debate, :url => {:action => 'create'}) do |f| %>
       <table class="gridcenter">
         <tr>
@@ -30,6 +34,7 @@
   </div>
 </div>
 
+<!-- js that shows/hides for and against fields depending on debate type choice -->
 <script>
   $(document).ready(function() {
     $('input[type="radio"][data-behavior="clickable"]').click(function(evt) {

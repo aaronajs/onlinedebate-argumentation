@@ -1,8 +1,13 @@
+<!-- recursive card interface -->
+<!-- displays argument and info in a card -->
+<!-- creates hidden cards recursively for each counter argument for this argument -->
 <div class="card">
   <div class="card-header" id="<%= "cardhead_#{arg.id}" %>">
     <div class="row">
       <div class="col-12 col-md-6">
+        <!-- displays argument description and number of counter attacks -->
         <% if arg.attacks.size > 0 %>
+        <!-- expands list of existing arguments when clicked -->
           <a class="collapsed text-info" role="button" data-toggle="collapse" href="#<%= "card_#{arg.id}" %>" aria-expanded="false" aria-controls="<%= "card_#{arg.id}" %>">
             <td><%= arg.description %></td>
           </a>
@@ -18,6 +23,7 @@
           <td><%= arg.attacks.size %> counter arguments</td>
         <% end %>
         <br />
+        <!-- button to trigger modal for adding a counter argument -->
         <%= link_to 'Add Counter Argument', '#', 'data-target' => "#myModal_#{arg.id}", 'data-toggle' => 'modal'  %>
         <div class="modal fade" id='<%= "myModal_#{arg.id}" %>' tabindex="-1" aria-labelledby="title" aria-hidden="true">
           <div class="modal-dialog">
@@ -26,6 +32,7 @@
                 <h4 class="modal-title" id="title">Add Counter Argument</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
+              <!-- renders form page within modal -->
               <div class="modal-body">
                 <%= render 'form', arg: arg.id, debate: @debate.id, type: @type%>
               </div>
@@ -33,10 +40,12 @@
           </div>
         </div>
       </div>
+      <!-- argument created at time -->
       <div class="col-12 col-md-6 mobileright">
         <td><%= arg.created_at.localtime.to_formatted_s(:long_ordinal) %></td>
         <br />
          mark as:
+         <!-- links to mark as relevant, irrelevant or report argument -->
         <td>
           <%= link_to( {:action => 'upvote', :arg_id => arg.id, :debate_id => @debate.id, :type => @type}) do %>
             relevant
@@ -56,6 +65,7 @@
     </div>
   </div>
 
+  <!-- hidden card that recursively calls this page for any counter arguments -->
   <div id="<%= "card_#{arg.id}" %>" class="collapse" aria-labelledby="<%= "cardhead_#{arg.id}" %>">
     <% arg.attacks.sort.reverse.each do |att| %>
       <div class="minimal-padding card-body">

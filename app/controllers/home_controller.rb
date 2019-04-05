@@ -1,17 +1,23 @@
 class HomeController < ApplicationController
 
+  # user cannot access any page except rules of conduct and home pages unless logged in
   before_action :confirm_logged_in, :except => [:rules, :index]
+  # user cannot access any page except rules of conduct page unless not banned
   before_action :confirm_not_banned, :except => [:rules]
 
+  # navigates to home page - shows all debates
   def index
     @users = User.sorted
     @open = OpenDebate.sorted
     @binary = BinaryDebate.sorted
   end
 
+  # navigates to rules of conduct page
   def rules
   end
 
+  # navigates to the show page
+  # has different attributes and settings per debate type
   def show
     type = params[:type]
     if type == "open"
@@ -21,6 +27,10 @@ class HomeController < ApplicationController
     end
   end
 
+  # adds a new argument to a debate, specifying its attributes
+  # argument is leading
+  # argument is added to a for or against list if part of a binary debate
+  # the debate is updated, and redirected to the show page after the evaluation script is called
   def add_new_argument
     if arg_params[:description].present?
       debateid = params[:debate_id]
@@ -56,6 +66,9 @@ class HomeController < ApplicationController
     end
   end
 
+  # adds a new counter argument to a debate, specifying its attributes
+  # argument is added to a for or against list if part of a binary debate
+  # the debate is updated, and redirected to the show page after the evaluation script is called
   def add_argument
     type = params[:type]
     if arg_params[:description].present?
@@ -95,14 +108,14 @@ class HomeController < ApplicationController
     end
   end
 
+  # updates the updated_at column of a debate
   def update_debate(debate)
     debate.updated_at = DateTime.now
     debate.save
   end
 
-  def rules
-  end
-
+  # marks or unmarks an argument as relevant for a particular user
+  # redirects to the show page after the evaluation script is called
   def upvote
     @arg = Argument.find(params[:arg_id])
     @type = params[:type]
@@ -118,6 +131,8 @@ class HomeController < ApplicationController
     redirect_to({:action => 'show', :id => params[:debate_id], :type => @type})
   end
 
+  # marks or unmarks an argument as irrelevant for a particular user
+  # redirects to the show page after the evaluation script is called
   def downvote
     @arg = Argument.find(params[:arg_id])
     @type = params[:type]
@@ -133,9 +148,11 @@ class HomeController < ApplicationController
     redirect_to({:action => 'show', :id => params[:debate_id], :type => @type})
   end
 
+  # navigates to the new page
   def new
   end
 
+  # creates a debate based on its type
   def create
     if deb_params[:description].present?
       if deb_params[:type] == "open"
@@ -149,6 +166,8 @@ class HomeController < ApplicationController
     end
   end
 
+  # reports an argument and the user that created it
+  # redirects to the show page after the evaluation script is called
   def report_arg
     arg = Argument.find(params[:arg_id])
     arg.reported = arg.reported + 1
@@ -159,6 +178,8 @@ class HomeController < ApplicationController
     flash[:notice] = "Reported argument"
   end
 
+  # reports a debate and the user that created it
+  # redirects to the show page after the evaluation script is called
   def report_deb
     if params[:type] == "open"
       deb = OpenDebate.find(params[:deb_id])
@@ -175,6 +196,8 @@ class HomeController < ApplicationController
 
   private
 
+  # reports a user
+  # if they are passed the ban threshold, they have a ban date set - banned for 7 days
   def report_user(id)
     user = User.find(id)
     user.reported = user.reported + 1
@@ -184,6 +207,8 @@ class HomeController < ApplicationController
     user.save
   end
 
+  # calls the evaluation script appropriate for the debate type
+  # obtains all the arguments for that debate
   def evaluation(type, debate)
     if type == "open"
       arguments = Argument.where(debate_id: debate, isOpen: true)
@@ -200,6 +225,9 @@ class HomeController < ApplicationController
     end
   end
 
+  # calls the python script to evaluate open debates
+  # converts to json before passing arguments to script
+  # obtains result from script to set new leader for debate
   def open_evaluation(debate, arguments)
     full = ''
     arguments.each do |arg|
@@ -211,6 +239,9 @@ class HomeController < ApplicationController
     debate.save
   end
 
+  # calls the python script to evaluate binary debates
+  # converts to json before passing arguments to script
+  # obtains result from script to set new leading side for debate
   def binary_evaluation(debate, arguments)
     puts "binary evaluation"
     full = ''
@@ -232,6 +263,8 @@ class HomeController < ApplicationController
     debate.save
   end
 
+  # creates and stores an open debate
+  # redirects to the show page
   def create_open
     @debate = OpenDebate.new()
     @debate.description = deb_params[:description]
@@ -244,6 +277,8 @@ class HomeController < ApplicationController
     end
   end
 
+  # creates and stores an binary debate
+  # redirects to the show page
   def create_binary
     if deb_params[:for].present? && deb_params[:against].present?
       @debate = BinaryDebate.new()
@@ -263,6 +298,8 @@ class HomeController < ApplicationController
     end
   end
 
+  # shows page with debate information and its arguments for an open debate
+  # redirects to show page
   def show_open
     @type = params[:type]
     @debate = OpenDebate.find(params[:id])
@@ -270,6 +307,8 @@ class HomeController < ApplicationController
     @arguments = Argument.where(debate_id: @debate.id, isOpen: true).sorted
   end
 
+  # shows page with debate information and its arguments for a binary debate
+  # redirects to show page
   def show_binary
     @type = params[:type]
     @debate = BinaryDebate.find(params[:id])
@@ -277,10 +316,12 @@ class HomeController < ApplicationController
     @arguments = Argument.where(debate_id: @debate.id, isOpen: false).sorted
   end
 
+  # stores parameters of an argument
   def arg_params
     params.require(:argument).permit(:description, :choice)
   end
 
+  # stores parameters of a debate
   def deb_params
     params.require(:debate).permit(:type, :description, :for, :against)
   end

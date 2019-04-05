@@ -1,3 +1,5 @@
+<!-- contains view displayed on every page of the application -->
+<!-- also links bootstrap, popper and jquery - necessary for bootstrap -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,9 @@
 
 </head>
 <body>
-
+  <!-- navbar contains links to profile, homepage, new debate page, rules of conduct -->
+  <!-- shows log out button if already logged in -->
+  <!-- shows log in and sign up button if not logged in -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navdrop" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -57,26 +61,29 @@
           <% if (session[:user_id]) %>
             <li class="nav-item">
               <%= link_to( {:controller => 'access', :action => 'logout'}, :class => 'nav-item nav-link') do %>
-              <%= "Logout" %>
+              <%= "Log Out" %>
               <% end %>
             </li>
           <% else %>
             <li class="nav-item">
               <%= link_to( {:controller => 'access', :action => 'login'}, :class => 'nav-item nav-link') do %>
-              <%= "Login" %>
+              <%= "Log In" %>
               <% end %>
             </li>
             <li class="nav-item">
               <%= link_to( {:controller => 'access', :action => 'signup'}, :class => 'nav-item nav-link') do %>
-              <%= "Signup" %>
+              <%= "Sign Up" %>
               <% end %>
             </li>
           <% end %>
         </ul>
     </div>
   </nav>
-
+  
+<!-- shows page that's actually been called -->
 <%= yield %>
+
+      <!-- displays footer with Disclaimer and copyright on every page -->
       <div class="container" id="footer">
         <p class="text-muted small">
           Disclaimer: The information contained in arguments is submitted by our users. There is no guarantee that the information is factually correct. This means that the argumentation based evaluation of debates may produce a questionable winning argument. For more about argumentation evaluation, see the user guide.

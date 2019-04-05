@@ -1,3 +1,5 @@
+<!-- modal form that allows counter argument to be added to specific argument -->
+<!-- attempts to add counter argument when button pressed -->
 <%= form_for(:argument, :url => {:action => 'add_argument', :arg => arg, :debate => debate, :type => type}) do |f| %>
 <p class="form-control-file"><%= f.text_area:description, placeholder: 'Counter Argument Description', :cols => 45, :rows => 7%></p>
 <%= submit_tag ("Add Counter Argument"), class:"btn btn-info" %>

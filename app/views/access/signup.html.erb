@@ -1,4 +1,7 @@
+<!-- sign up page -->
 <div class="jumbotron text-center" style="height:100vh">
+  <!-- username, email, 2 password fields to be filled in -->
+  <!-- attempts to sign user up to service if correct when sign up button pressed -->
   <h1>Sign Up</h1><hr><br />
   <%= form_tag(:action => 'attempt_signup') do %>
     <p class="marginZero"><%= text_field_tag :email, nil, placeholder: 'Email Address' %></p>
