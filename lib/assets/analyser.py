@@ -144,7 +144,8 @@ class Analyser:
                 for alt in self.allSccs:
                     for oth in alt:
                         if arg is not oth and scc is not alt and arg.attacks(oth):
-                            self.condensationGraph[self.allSccs.index(alt)].append(self.allSccs.index(scc))
+                            self.condensationGraph[self.allSccs.index(alt)]
+                            .append(self.allSccs.index(scc))
 
     # recursive backup method to calculate extensions
     # iterates through an argument to calculate if it can be accepted, based on the calculated acceptances of its attackers

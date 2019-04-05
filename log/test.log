@@ -149,3 +149,57 @@ INSERT INTO "arguments" ("id", "description", "attacks", "defends", "user_id", "
 INSERT INTO "users" ("id", "username", "email", "reported", "password_digest", "created_at", "updated_at", "ban_date") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 09:34:38.694992', '2019-04-05 09:34:38.694992', DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 09:34:38.694992', '2019-04-05 09:34:38.694992', DEFAULT);
 INSERT INTO "binary_debates" ("id", "description", "for", "against", "isFor", "user_id", "reported", "created_at", "updated_at", "for_arguments", "against_arguments") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 09:34:38.696511', '2019-04-05 09:34:38.696511', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 09:34:38.696511', '2019-04-05 09:34:38.696511', DEFAULT, DEFAULT)[0m
   [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.0ms)[0m  [1m[35mALTER TABLE "arguments" DISABLE TRIGGER ALL;ALTER TABLE "binary_debates" DISABLE TRIGGER ALL;ALTER TABLE "open_debates" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "votes" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixtures Load (7.4ms)[0m  [1m[31mDELETE FROM "open_debates";
+DELETE FROM "arguments";
+DELETE FROM "users";
+DELETE FROM "binary_debates";
+INSERT INTO "open_debates" ("id", "description", "leader", "user_id", "reported", "created_at", "updated_at") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.414794', '2019-04-05 11:59:46.414794'), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.414794', '2019-04-05 11:59:46.414794');
+INSERT INTO "arguments" ("id", "description", "attacks", "defends", "user_id", "debate_id", "reported", "created_at", "updated_at", "isOpen", "isLeading") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.464612', '2019-04-05 11:59:46.464612', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.464612', '2019-04-05 11:59:46.464612', DEFAULT, DEFAULT);
+INSERT INTO "users" ("id", "username", "email", "reported", "password_digest", "created_at", "updated_at", "ban_date") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.470992', '2019-04-05 11:59:46.470992', DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.470992', '2019-04-05 11:59:46.470992', DEFAULT);
+INSERT INTO "binary_debates" ("id", "description", "for", "against", "isFor", "user_id", "reported", "created_at", "updated_at", "for_arguments", "against_arguments") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.476191', '2019-04-05 11:59:46.476191', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.476191', '2019-04-05 11:59:46.476191', DEFAULT, DEFAULT)[0m
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "arguments" DISABLE TRIGGER ALL;ALTER TABLE "binary_debates" DISABLE TRIGGER ALL;ALTER TABLE "open_debates" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "votes" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixtures Load (0.6ms)[0m  [1m[31mDELETE FROM "open_debates";
+DELETE FROM "arguments";
+DELETE FROM "users";
+DELETE FROM "binary_debates";
+INSERT INTO "open_debates" ("id", "description", "leader", "user_id", "reported", "created_at", "updated_at") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.657856', '2019-04-05 11:59:46.657856'), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.657856', '2019-04-05 11:59:46.657856');
+INSERT INTO "arguments" ("id", "description", "attacks", "defends", "user_id", "debate_id", "reported", "created_at", "updated_at", "isOpen", "isLeading") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.668175', '2019-04-05 11:59:46.668175', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.668175', '2019-04-05 11:59:46.668175', DEFAULT, DEFAULT);
+INSERT INTO "users" ("id", "username", "email", "reported", "password_digest", "created_at", "updated_at", "ban_date") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.670103', '2019-04-05 11:59:46.670103', DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.670103', '2019-04-05 11:59:46.670103', DEFAULT);
+INSERT INTO "binary_debates" ("id", "description", "for", "against", "isFor", "user_id", "reported", "created_at", "updated_at", "for_arguments", "against_arguments") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.671568', '2019-04-05 11:59:46.671568', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 11:59:46.671568', '2019-04-05 11:59:46.671568', DEFAULT, DEFAULT)[0m
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "arguments" DISABLE TRIGGER ALL;ALTER TABLE "binary_debates" DISABLE TRIGGER ALL;ALTER TABLE "open_debates" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "votes" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixtures Load (2.0ms)[0m  [1m[31mDELETE FROM "open_debates";
+DELETE FROM "arguments";
+DELETE FROM "users";
+DELETE FROM "binary_debates";
+INSERT INTO "open_debates" ("id", "description", "leader", "user_id", "reported", "created_at", "updated_at") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.156908', '2019-04-05 12:01:20.156908'), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.156908', '2019-04-05 12:01:20.156908');
+INSERT INTO "arguments" ("id", "description", "attacks", "defends", "user_id", "debate_id", "reported", "created_at", "updated_at", "isOpen", "isLeading") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.165008', '2019-04-05 12:01:20.165008', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.165008', '2019-04-05 12:01:20.165008', DEFAULT, DEFAULT);
+INSERT INTO "users" ("id", "username", "email", "reported", "password_digest", "created_at", "updated_at", "ban_date") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.172301', '2019-04-05 12:01:20.172301', DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.172301', '2019-04-05 12:01:20.172301', DEFAULT);
+INSERT INTO "binary_debates" ("id", "description", "for", "against", "isFor", "user_id", "reported", "created_at", "updated_at", "for_arguments", "against_arguments") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.179775', '2019-04-05 12:01:20.179775', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.179775', '2019-04-05 12:01:20.179775', DEFAULT, DEFAULT)[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "arguments" DISABLE TRIGGER ALL;ALTER TABLE "binary_debates" DISABLE TRIGGER ALL;ALTER TABLE "open_debates" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "votes" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL;ALTER TABLE "ar_internal_metadata" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixtures Load (0.7ms)[0m  [1m[31mDELETE FROM "open_debates";
+DELETE FROM "arguments";
+DELETE FROM "users";
+DELETE FROM "binary_debates";
+INSERT INTO "open_debates" ("id", "description", "leader", "user_id", "reported", "created_at", "updated_at") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.328835', '2019-04-05 12:01:20.328835'), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.328835', '2019-04-05 12:01:20.328835');
+INSERT INTO "arguments" ("id", "description", "attacks", "defends", "user_id", "debate_id", "reported", "created_at", "updated_at", "isOpen", "isLeading") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.330587', '2019-04-05 12:01:20.330587', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.330587', '2019-04-05 12:01:20.330587', DEFAULT, DEFAULT);
+INSERT INTO "users" ("id", "username", "email", "reported", "password_digest", "created_at", "updated_at", "ban_date") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.332245', '2019-04-05 12:01:20.332245', DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.332245', '2019-04-05 12:01:20.332245', DEFAULT);
+INSERT INTO "binary_debates" ("id", "description", "for", "against", "isFor", "user_id", "reported", "created_at", "updated_at", "for_arguments", "against_arguments") VALUES (980190962, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.333763', '2019-04-05 12:01:20.333763', DEFAULT, DEFAULT), (298486374, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, '2019-04-05 12:01:20.333763', '2019-04-05 12:01:20.333763', DEFAULT, DEFAULT)[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m

@@ -1,13 +1,18 @@
 require 'test_helper'
 
 class AccessControllerTest < ActionDispatch::IntegrationTest
+
+  setup do
+    @user = build(:user)
+  end
+
   test "should get login" do
-    get access_login_url
+    get :login
     assert_response :success
   end
 
   test "should get signup" do
-    get access_signup_url
+    get :signup
     assert_response :success
   end
 
