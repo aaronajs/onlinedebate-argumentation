@@ -52,14 +52,14 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-group :development, :test do
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-  gem 'factory_bot_rails'
-  gem 'minitest-rails-capybara'
-end
+# group :development, :test do
+#   # Use sqlite3 as the database for Active Record
+#   gem 'sqlite3'
+#   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+#   gem 'byebug'
+#   gem 'factory_bot_rails'
+#   gem 'minitest-rails-capybara'
+# end
 
 group :production do
   # Adds support for Capybara system testing and selenium driver
