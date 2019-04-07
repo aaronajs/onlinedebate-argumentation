@@ -155,7 +155,8 @@ class Analyser:
         else:
             x = []
             for attacker in arg.attacked:
-                x.append(self.backtrack(attacker))
+                y = self.backtrack(attacker)
+                x.append(y)
             for elem in x:
                 if elem[1] == True:
                     return (arg, False)

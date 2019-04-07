@@ -57,5 +57,5 @@ class Argument(object):
 
     # override to string
     def __str__(self):
-        output = self.id
+        output = str(self.id)
         return output

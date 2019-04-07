@@ -25,7 +25,7 @@ eval = Analyser(list(arguments.keys()))
 for arg in arguments:
     if len(arguments[arg]) != 0:
         for attack in arguments[arg]:
-            eval.addAttack(arg, eval.findForAttack(attack))
+            eval.addAttack(eval.findForAttack(attack), arg)
 
 # performs the evaluation on the argument framework and obtains the points
 eval.calculateSCCs()

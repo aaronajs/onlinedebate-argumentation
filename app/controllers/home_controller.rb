@@ -235,6 +235,8 @@ class HomeController < ApplicationController
     end
     result = `python lib/assets/evaluate_open.py #{full}`
     debate = OpenDebate.find(debate)
+    puts "RESULT"
+    puts result
     debate.leader = result.to_i
     debate.save
   end
